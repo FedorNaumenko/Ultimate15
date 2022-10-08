@@ -1,0 +1,172 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package newproject;
+
+import java.awt.Color;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author Fedor
+ */
+public class Square extends javax.swing.JPanel {
+
+    static int N = 3; 
+    Cell [][] cells = new Cell[N][N];
+    int row, col;
+    Board board;
+    Square square;
+    int count = 0;
+    /**
+     * Creates new form Square
+     */
+    public Square(Board board, int row, int col) {
+        initComponents();
+        this.board = board;
+        this.row = row;
+        this.col = col;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                cells[i][j] = new Cell(this, i,j);
+            }
+        }
+        this.setBounds(col*Cell.CellSize*N, row*Cell.CellSize*N, Cell.CellSize*N, Cell.CellSize*N);
+        this.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        this.setLayout(new java.awt.GridLayout(3, 3, 1, 1));
+        board.add(this);
+    }
+
+    boolean Check(Cell cell, String value) {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (( cells[i][j] !=  cell) && (cells[i][j].getText().equals(value)))
+                    return false;
+            }
+        }
+        return true;
+    }
+      
+    /*Returns true if the cell is full*/
+    boolean isFull(Cell cell){
+        for(int i = 0;i < N;i++) {
+            for(int j = 0;j < N;j++){
+                if((cells[i][j] == cell) && (cell.getText().isEmpty())){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
+    /*Checks who won in a square*/
+    public void WhoWon(Square square){
+        this.square = square;
+        int sumb = 0,sumr = 0;
+        String red = "red";//blue = "blue";
+        
+        //Vertical
+        for(int j = 0;j < N;j++){
+            for(int i = 0;i < N;i++){
+                Color color = Color.getColor(cells[i][j].getText());
+                if(color.toString().equalsIgnoreCase(red))//color == red
+                {
+                    sumr = sumr + Integer.parseInt(cells[i][j].getText());
+                }
+                else{//color == blue
+                    sumb = sumb + Integer.parseInt(cells[i][j].getText());
+                }
+            }
+            if(sumr == 15){//checks if the sums equal 15
+                this.setBackground(Color.red);
+            }
+            else{
+                this.setBackground(Color.blue);
+            }
+            sumr = 0;
+            sumb = 0;
+        }
+        
+        //Horizontal
+        for(int i = 0;i < N;i++){
+            for(int j = 0;j < N;j++){
+                Color color = Color.getColor(cells[i][j].getText());
+                if(color.toString().equalsIgnoreCase(red))//color == red
+                {
+                    sumr = sumr + Integer.parseInt(cells[i][j].getText());
+                }
+                else{//color == blue
+                    sumb = sumb + Integer.parseInt(cells[i][j].getText());
+                }
+            }
+            if(sumr == 15){//checks if the sums equal 15
+                this.setBackground(Color.red);
+            }
+            else{
+                this.setBackground(Color.blue);
+            }
+            sumr = 0;
+            sumb = 0;
+        }
+        
+        //Diagonal
+        for(int i = 0,j = 0;i < N && j < N;i++,j++){
+            Color color = Color.getColor(cells[i][j].getText());
+            if(color.toString().equalsIgnoreCase(red))
+            {
+                sumr = sumr + Integer.parseInt(cells[i][j].getText());
+            }
+            else{
+                sumb = sumb + Integer.parseInt(cells[i][j].getText());
+            }
+        }
+        if(sumr == 15){//checks if the sums equal 15
+            this.setBackground(Color.red);
+        }
+        else{
+            this.setBackground(Color.blue);
+        }
+        sumr = 0;
+        sumb = 0;
+            
+        for(int i = 0, j = N-1;i < N && j >= 0;i++,j--){
+            Color color = Color.getColor(cells[i][j].getText());
+            if(color.toString().equalsIgnoreCase(red))
+            {
+                sumr = sumr + Integer.parseInt(cells[i][j].getText());
+            }
+            else{
+                sumb = sumb + Integer.parseInt(cells[i][j].getText());
+            }
+        }
+        if(sumr == 15){//checks if the sums equal 15
+            this.setBackground(Color.red);
+        }
+        else{
+            this.setBackground(Color.blue);
+        }
+    }
+    
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        setBackground(new java.awt.Color(255, 255, 255));
+        setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        setLayout(new java.awt.GridLayout(3, 3, 1, 1));
+    }// </editor-fold>//GEN-END:initComponents
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // End of variables declaration//GEN-END:variables
+}
+
